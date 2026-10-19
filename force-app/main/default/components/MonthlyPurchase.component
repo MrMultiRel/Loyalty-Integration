@@ -1,0 +1,87 @@
+<apex:component controller="MonthlyPurchaseController" access="global">
+    
+    <apex:attribute name="currentContactId" description="ID контакта" type="Id" assignTo="{!contactId}"/>
+
+    <apex:outputPanel rendered="{!hasPurchases}">
+        <table 
+            style="width: 90%; 
+                   border-collapse: collapse;
+                   margin: 20px auto;
+                   text-align: center;">
+            <thead 
+                >
+                <tr>
+                    <th style="background-color: #f2f3f3;
+                               border: 1px solid #d8dde6;
+                               padding: 8px;
+                               text-align: center;">
+                       {!$Label.PurchaseDate}
+                    </th>
+                    <th style="background-color: #f2f3f3;
+                               border: 1px solid #d8dde6;
+                               padding: 8px;
+                               text-align: center;">
+                        {!$Label.Description}
+                    </th>
+                    <th style="background-color: #f2f3f3;
+                               border: 1px solid #d8dde6;
+                               padding: 8px;
+                               text-align: center;">
+                        {!$Label.Products}
+                    </th>
+                    <th style="background-color: #f2f3f3;
+                               border: 1px solid #d8dde6;
+                               padding: 8px;
+                               text-align: center;">
+                        {!$Label.TotalNo}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <apex:repeat value="{!monthlyPurchases}" var="order">
+                    <tr>
+                        <td style="border: 1px solid #d8dde6; padding: 8px;">
+                            {!order.purchaseDate}
+                        </td>
+                        <td style="border: 1px solid #d8dde6; padding: 8px;">
+                            {!order.description} 
+                        </td>
+                        <td style="border: 1px solid #d8dde6; padding: 8px;">
+                            <apex:repeat value="{!order.productNames}" var="name">
+                                <div>
+                                    {!name}
+                                </div>
+                            </apex:repeat>
+                        </td>
+                        <td style="border: 1px solid #d8dde6; padding: 8px;">
+                            <div>
+                                {!order.totalCurrency}
+                            </div>
+                            <div>
+                                {!order.totalPoints} {!$Label.Points}
+                            </div>
+                        </td>
+                    </tr>
+                </apex:repeat>
+                
+                <tr style="font-weight: bold; background-color: #f8f9fa;">
+                    <td colspan="3" style="border: 1px solid #d8dde6; padding: 8px;">{!$Label.MonthTotal}</td>
+                    <td style="border: 1px solid #d8dde6; padding: 8px;">
+                        <div>
+                            {!MonthTotalCurrency}
+                        </div>
+                        <div>
+                            {!MonthTotalPoints} {!$Label.Points}
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </apex:outputPanel>
+
+    <apex:outputPanel rendered="{!NOT(hasPurchases)}">
+        <p class="no-purchases">{!$Label.NoPurchases}</p>
+    </apex:outputPanel>
+
+</apex:component>
